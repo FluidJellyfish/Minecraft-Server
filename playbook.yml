@@ -1,0 +1,51 @@
+---
+- name: Minecraft server
+  hosts: minecraft
+  become: yes
+  tasks:
+    - name: wait for instance to intialize
+      ansible.builtin.wait_for_connection:
+        timeout: 250
+    - name: update apt
+      ansible.builtin.apt:
+        update_cache: yes
+
+    - name: install dependency
+      ansible.builtin.apt:
+        name:
+          - openjdk-21-jre-headless
+        state: present
+
+    - name: create minecraft dir
+      ansible.builtin.file:
+        path: /home/ubuntu/minecraft
+        state: directory
+        owner: ubuntu
+        group: ubuntu
+
+    - name: download Mc server Jar
+      ansible.builtin.get_url:
+        url: "https://piston-data.mojang.com/v1/objects/4707d00eb834b446575d89a61a11b5d548d8c001/server.jar"
+        dest: /home/ubuntu/minecraft/server.jar
+        owner: ubuntu
+        group: ubuntu
+
+    - name: accept Eula
+      ansible.builtin.copy:
+        content: "eula=true"
+        dest: /home/ubuntu/minecraft/eula.txt
+        owner: ubuntu
+        group: ubuntu
+
+    - name: Mc systemd service
+      ansible.builtin.copy:
+        src: minecraft.service
+        dest: /etc/systemd/system/minecraft.service
+        mode: "644"
+
+    - name: Bootup Mc server
+      ansible.builtin.systemd:
+        name: minecraft
+        enabled: true
+        state: started
+        daemon_reload: true
