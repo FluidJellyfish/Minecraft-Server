@@ -48,13 +48,8 @@ resource "aws_eip" "elasticIP" {
   domain = "vpc"
 }
 
-resource "time_sleep" "sleep" {
-  depends_on = [aws_instance.MinecraftServer]
-  create_duration = "30s"
-}
 
 resource "local_file" "createHosts" {
-  depends_on = [time_sleep.sleep]
   content = "[minecraft]\n${aws_eip.elasticIP.public_ip} ansible_user=ubuntu ansible_ssh_private_key_file=${path.module}/Minecraft"
   filename = "${path.module}/hosts.ini"
 }

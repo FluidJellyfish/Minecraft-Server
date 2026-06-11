@@ -1,0 +1,17 @@
+[Unit]
+
+Description=Minecraft Server
+After=network.target
+
+[Service]
+
+User=ubuntu
+WorkingDirectory=/home/ubuntu/minecraft
+ExecStart=/usr/bin/java -Xms2G -Xmx2G -jar server.jar nogui
+KillSignal=SIGTERM
+timeoutStopSec=30s
+Restart=on-failure
+
+
+[Install]
+WantedBy=multi-user.target
