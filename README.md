@@ -12,15 +12,15 @@ Virtual Machine running Ubuntu
 
 Minecraft Server                          
                                                         │
-├ Install dependencies                    
+ Install dependencies                    
                                                         │
-┼ Move SSH Key and Files              
+ Move SSH Key and Files              
                                                         │
-┼ Create AWS Env Variables             
-│                                                        │
-┼─Run Terraform script                  
+ Create AWS Env Variables             
+                                                       │
+Run Terraform script                  
                                                          │
- |── Connect to MC server             
+ Connect to MC server             
                                                          │
 ┼────────────────────  
 
